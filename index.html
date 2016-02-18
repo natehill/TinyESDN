@@ -77,24 +77,33 @@
 	       provider: "Empire+State+Digital+Network",
 	       api_key: "YOUR API KEY HERE",
 	       page_size: 100,
+	       facets: "sourceResource.subject.name,sourceResource.date.begin,sourceResource.spatial.county,sourceResource.spatial.city,admin.contributingInstitution",
 	     },
 	     success: function( result ) {
 	       if(result.docs.length > 0) {
 		 for (var i= 0; i < result.docs.length; i++) {
+		   var r_id = "#result_" + i;
 		   var doc = result.docs[i];
 		   var sr = result.docs[i].sourceResource;
 		   var im = doc.object;
-		   $("#results" ).append("<div class='col-md-4'><img src='" + im +
+		   $("#results" ).append("<div id='result_" + i + "'><img src='" + im +
 					 "' height='50px' width='50px'/>&nbsp;<a href='"+ doc.isShownAt +"'>" + sr.title + "</a></div>");
 		 }
+		 for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
+		   $( "#facets" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
+		 }
+
 	       } else {
-		 $( "#results" ).append("<div class='col-md-4'>No results for the search '" + q + ".'</div>");
+		 $( "#results" ).append("<div>No results for the search '" + q + ".'</div>");
 	       }
 	     }
 	   });
 	 });
 	 // ]]></script>
-	<div id="results" class="container"></div>
+	<div class="row">
+	  <div id="facets" class="col-md-2"></div>
+	  <div id="results" class="col-md-10"></div>
+	</div>
 	<div id="log" class="container"></div>
       </div>
     </div><!-- /.container -->
