@@ -16,6 +16,15 @@
        padding: 40px 15px;
        text-align: left;
      }
+     #subject.div {
+       display: none;
+     }
+     #date_begin.div {
+       display: none;
+     }
+     #contributor.div {
+       display: none;
+     }
     </style>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,7 +77,6 @@
 	 });
 	 $("#search").click(function(e){
 	   var q = $("#searchterm").val();
-	   $( "#results" ).empty();
 	   $.ajax({
 	     dataType: "jsonp",
 	     url: "http://api.dp.la/v2/items",
@@ -81,6 +89,10 @@
 	     },
 	     success: function( result ) {
 	       if(result.docs.length > 0) {
+		 $( "#results" ).empty();
+		 $( "#facets" ).empty();
+		 $( "#facets" ).append("<h2>Facets</h2>");
+		 $( "#results" ).append("<h2>Search results</h2>");
 		 for (var i= 0; i < result.docs.length; i++) {
 		   var r_id = "#result_" + i;
 		   var doc = result.docs[i];
@@ -89,15 +101,27 @@
 		   $("#results" ).append("<div id='result_" + i + "'><img src='" + im +
 					 "' height='50px' width='50px'/>&nbsp;<a href='"+ doc.isShownAt +"'>" + sr.title + "</a></div>");
 		 }
-		 $( "#facets" ).append("<div id='subject'>Subject</div>");
+		 $( "#facets" ).append("<div id='subject' style='cursor:pointer;'><h4>Subject (" + result.facets['sourceResource.subject.name'].terms.length +")</h4></div>");
 		 for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
 		   $( "#subject" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
 		 }
 
-		 $( "#facets" ).append("<div id='date_begin'>Date</div>");
-		 for(var i = 0; i < result.facets['sourceResource.date.begin'].terms.length; i++) {
-		   $( "#date_begin" ).append("<div>" + result.facets['sourceResource.date.begin'].terms[i].term + "</div>");
+		 $( "#facets" ).append("<div id='date_begin' style='cursor:pointer';><h4>Date (" +  result.facets['sourceResource.date.begin'].entries.length +")</h4></div>");
+		 for(var i = 0; i < result.facets['sourceResource.date.begin'].entries.length; i++) {
+		   $( "#date_begin" ).append("<div>" + result.facets['sourceResource.date.begin'].entries[i].time + "</div>");
 		 }
+
+		 $( "#facets" ).append("<div id='contributor' style='cursor:pointer';><h4>Contributor (" +  result.facets['admin.contributingInstitution'].terms.length +")</h4></div>");
+		 for(var i = 0; i < result.facets['admin.contributingInstitution'].terms.length; i++) {
+		   $( "#contributor" ).append("<div>" + result.facets['admin.contributingInstitution'].terms[i].term + "</div>");
+		 }
+
+		 $( "#subject" ).children("div").hide();
+		 $( "#subject" ).click(function () { $( this ).children("div").toggle(); });
+		 $( "#date_begin" ).children("div").hide();
+		 $( "#date_begin" ).click(function () { $( this ).children("div").toggle(); });
+		 $( "#contributor" ).children("div").hide();
+		 $( "#contributor" ).click(function () { $( this ).children("div").toggle(); });
 
 	       } else {
 		 $( "#results" ).append("<div>No results for the search '" + q + ".'</div>");
@@ -107,8 +131,8 @@
 	 });
 	 // ]]></script>
 	<div class="row">
-	  <div id="facets" class="col-md-2"><h2>Facets</h2></div>
-	  <div id="results" class="col-md-10"><h2>Search Results</h2></div>
+	  <div id="facets" class="col-md-5"></div>
+	  <div id="results" class="col-md-7"></div>
 	</div>
 	<div id="log" class="container"></div>
       </div>
