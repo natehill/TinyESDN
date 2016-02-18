@@ -83,7 +83,7 @@
 	     data: {
 	       q: q,
 	       provider: "Empire+State+Digital+Network",
-	       api_key: "YOUR API KEY HERE",
+	       api_key: "6a7861bb69e047312d045b544683de9e",
 	       page_size: 100,
 	       facets: "sourceResource.subject.name,sourceResource.date.begin,sourceResource.spatial.county,sourceResource.spatial.city,admin.contributingInstitution",
 	       facet_size: 2000,
