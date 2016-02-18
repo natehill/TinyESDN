@@ -86,13 +86,14 @@
 	       api_key: "6a7861bb69e047312d045b544683de9e",
 	       page_size: 100,
 	       facets: "sourceResource.subject.name,sourceResource.date.begin,sourceResource.spatial.county,sourceResource.spatial.city,admin.contributingInstitution",
+	       facet_size: 2000,
 	     },
 	     success: function( result ) {
 	       if(result.docs.length > 0) {
 		 $( "#results" ).empty();
 		 $( "#facets" ).empty();
-		 $( "#facets" ).append("<h2>Facets</h2>");
-		 $( "#results" ).append("<h2>Search results</h2>");
+		 $( "#facets" ).append("<h3>Facets</h3>");
+		 $( "#results" ).append("<h3>Search results</h3>");
 		 for (var i= 0; i < result.docs.length; i++) {
 		   var r_id = "#result_" + i;
 		   var doc = result.docs[i];
@@ -101,21 +102,28 @@
 		   $("#results" ).append("<div id='result_" + i + "'><img src='" + im +
 					 "' height='50px' width='50px'/>&nbsp;<a href='"+ doc.isShownAt +"'>" + sr.title + "</a></div>");
 		 }
-		 $( "#facets" ).append("<div id='subject' style='cursor:pointer;'><h4>Subject (" + result.facets['sourceResource.subject.name'].terms.length +")</h4></div>");
+		 $( "#facets" ).append("<div id='subject' style='cursor:pointer;'><h4>Subject (" +
+				       result.facets['sourceResource.subject.name'].terms.length +")</h4></div>");
+
 		 for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
 		   $( "#subject" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
 		 }
 
-		 $( "#facets" ).append("<div id='date_begin' style='cursor:pointer';><h4>Date (" +  result.facets['sourceResource.date.begin'].entries.length +")</h4></div>");
+		 $( "#facets" ).append("<div id='date_begin' style='cursor:pointer';><h4>Date (" +
+				       result.facets['sourceResource.date.begin'].entries.length +")</h4></div>");
+
 		 for(var i = 0; i < result.facets['sourceResource.date.begin'].entries.length; i++) {
 		   $( "#date_begin" ).append("<div>" + result.facets['sourceResource.date.begin'].entries[i].time + "</div>");
 		 }
 
-		 $( "#facets" ).append("<div id='contributor' style='cursor:pointer';><h4>Contributor (" +  result.facets['admin.contributingInstitution'].terms.length +")</h4></div>");
+		 $( "#facets" ).append("<div id='contributor' style='cursor:pointer';><h4>Contributor (" +
+				       result.facets['admin.contributingInstitution'].terms.length +")</h4></div>");
+
 		 for(var i = 0; i < result.facets['admin.contributingInstitution'].terms.length; i++) {
 		   $( "#contributor" ).append("<div>" + result.facets['admin.contributingInstitution'].terms[i].term + "</div>");
 		 }
 
+		 <!-- set up visibility -->
 		 $( "#subject" ).children("div").hide();
 		 $( "#subject" ).click(function () { $( this ).children("div").toggle(); });
 		 $( "#date_begin" ).children("div").hide();
@@ -124,6 +132,7 @@
 		 $( "#contributor" ).click(function () { $( this ).children("div").toggle(); });
 
 	       } else {
+		 $( "#results" ).empty();
 		 $( "#results" ).append("<div>No results for the search '" + q + ".'</div>");
 	       }
 	     }
