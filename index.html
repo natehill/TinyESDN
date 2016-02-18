@@ -89,8 +89,14 @@
 		   $("#results" ).append("<div id='result_" + i + "'><img src='" + im +
 					 "' height='50px' width='50px'/>&nbsp;<a href='"+ doc.isShownAt +"'>" + sr.title + "</a></div>");
 		 }
+		 $( "#facets" ).append("<div id='subject'>Subject</div>");
 		 for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
-		   $( "#facets" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
+		   $( "#subject" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
+		 }
+
+		 $( "#facets" ).append("<div id='date_begin'>Date</div>");
+		 for(var i = 0; i < result.facets['sourceResource.date.begin'].terms.length; i++) {
+		   $( "#date_begin" ).append("<div>" + result.facets['sourceResource.date.begin'].terms[i].term + "</div>");
 		 }
 
 	       } else {
@@ -101,8 +107,8 @@
 	 });
 	 // ]]></script>
 	<div class="row">
-	  <div id="facets" class="col-md-2"></div>
-	  <div id="results" class="col-md-10"></div>
+	  <div id="facets" class="col-md-2"><h2>Facets</h2></div>
+	  <div id="results" class="col-md-10"><h2>Search Results</h2></div>
 	</div>
 	<div id="log" class="container"></div>
       </div>
