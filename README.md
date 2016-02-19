@@ -5,7 +5,7 @@ Small HTML file using [jQuery](http://www.jquery.com) and [Bootstrap](http://www
 return results from [Empire State Digital Network.](http://empirestate.digital) You need an DPLA API
 key for this to work, see
 [http://dp.la/info/developers/codex/policies/#get-a-key.](http://dp.la/info/developers/codex/policies/#get-a-key)
-Once you have a key, create a file named apikey.js whose contents read
+Once you have a key, create a file named `apikey.js` containing the following line:
 
 	var DPLA_API_KEY = "YOUR API KEY";
 
