@@ -7,6 +7,6 @@ key for this to work, see
 [http://dp.la/info/developers/codex/policies/#get-a-key.](http://dp.la/info/developers/codex/policies/#get-a-key)
 Once you have a key, create a file named `apikey.js` containing the following line:
 
-	var DPLA_API_KEY = "YOUR API KEY";
+	var DPLA_API_KEY = "YOUR API KEY"; // Your API key here
 
 and save it in the same directory as the index.html file. You should now be good to go.
