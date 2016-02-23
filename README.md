@@ -1,30 +1,7 @@
-Agency Jekyll theme
-====================
+ESDN Portal
 
-Agency theme based on [Agency bootstrap theme ](http://startbootstrap.com/templates/agency/)
+Forked from ESDNHub/TinyESDN, this is a search portal featuring all of the items from digital collections in the Empire State Library Network.
+This includes New York Heritage, DCMNY, Hudson River Valley Heritage, and more.
 
-# How to use
+It is built using Jekyll, uses a modified verion of the Agency Jekyll theme, and is powered by the Digital Public Library of America API.
 
-###Portfolio 
-
-Portfolio projects are in '/_posts'
-
-Images are in '/img/portfolio'
-
-###About
-
-Images are in '/img/about/'
-
-###Team
-
-Team members and info are in '_config.yml'
-
-Images are in '/img/team/'
-
-
-# Demo
-
-View this jekyll theme in action [here](https://y7kim.github.io/agency-jekyll-theme)
-
-=========
-For more details, read [documentation](http://jekyllrb.com/)
