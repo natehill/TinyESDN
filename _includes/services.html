@@ -1,0 +1,62 @@
+<!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                <container id="searchform">
+                 <input id="searchterm" type="text" /> <button id="search">search</button>
+    
+
+    <script type="text/javascript">// <![CDATA[
+
+
+      $("#search").click(function(e){
+        var q = $("#searchterm").val();
+        $( "#results").empty();
+        $.ajax({
+                dataType: "jsonp",
+                url: "http://api.dp.la/v2/items",
+                data: {
+                  q: q,
+                  page_size: 500,
+                  provider: "Empire+State+Digital+Network",
+                  api_key: "8a31567733c88cdce401a5237e6c2b6d",
+                },
+                success: function( result ) {
+                  for (var i= 0; i < result.docs.length; i++) {
+                    var srcRsrc = result.docs[i].sourceResource;
+
+
+                    $("#results" ).append("<div class='row itembox'><div class='titlebox'><h2><a class='link' href='"+ result.docs[i].isShownAt +"'>" + srcRsrc.title +"</a></h2></div><div class='col-lg-3'><div class='imgcontainer'><a class='link' href='"+ result.docs[i].isShownAt +"'><img src=" + result.docs[i].object + " /></a></div></div><div class='col-lg-9'><p class='dataprovider'>from the collection of " + result.docs[i].dataProvider +"</p><p class='description'>" + srcRsrc.description +"</p><p class='format'>" + srcRsrc.format +"</p></div></div>")
+
+
+
+                    //$('.imgcontainer').css( 'cursor', 'pointer' );
+      
+                    //$('.imgcontainer').bind('click', function() {
+                    //  window.location = $(this).find('.link').attr('href');
+                    //});
+
+                    //$('.imgcontainer').on('click',function() {
+                    //  $(this).animate({
+                    //    width: "800px",
+                    //    }, 1500 );
+                    //});
+                  }
+
+              }});
+        
+      });
+
+
+
+// ]]></script>
+
+
+
+    </container>
+    <container id="results"></container>
+                </div>
+            </div>
+        </div>
+    </section>

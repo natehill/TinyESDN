@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Escape</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="x">
+    <link rel="canonical" href="https://y7kim.github.io/portal//web%20development/2014/07/17/project-2/">
+
+
+    <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link rel="stylesheet" href="/portal//style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/portal//css/font-awesome/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Karla:400,700' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <script type="text/javascript" src="js/key.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+
+    <body id="page-top" class="index">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                 <a class="navbar-brand page-scroll" href="#page-top"><img src="img/ESLN_logo.png"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a href="/portal/#page-top">Search</a>
+                    </li>
+                    <li>
+                        <a href="/portal/#about">About</a>
+                    </li>
+                    <li>
+                        <a href="/portal/#map">Map</a>
+                    </li>
+                    <li>
+                        <a href="/portal/#involved">Get Involved</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+<!-- Navigation -->
+
+
+<header>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="intro-text">
+        <h1>Search Our Local History</h1>
+      </div>
+      <container id="searchform">
+       
+      <input id="searchterm" type="text" /> <br />
+       <a href="/portal/#searchresults">
+      <button id="search" class="btn btn-xl">search</button>
+    </a>
+    </div>
+  </div>
+</div>  
+<p>Ausable lake, May 1920. Image source <a href="http://digitalcollections.archives.nysed.gov/index.php/Detail/Object/Show/object_id/513">New York State Archives</a></p>
+</header>
+
+    
+
+    <script type="text/javascript">// <![CDATA[
+
+      $("#search").click(function(e){
+        var q = $("#searchterm").val();
+        $( "#results, #facets").empty();
+        $( "#results" ).prepend("<h2>Results</h2>");
+        $.ajax({
+       dataType: "jsonp",
+       url: "http://api.dp.la/v2/items",
+       data: {
+         q: q,
+         provider: "Empire+State+Digital+Network",
+         api_key: mykey,
+         page_size: 100,
+         facets: "sourceResource.subject.name,sourceResource.date.begin,sourceResource.spatial.county,sourceResource.spatial.city,admin.contributingInstitution",
+       },
+      success: function( result ) {
+        if(result.docs.length > 0) {
+      for (var i= 0; i < result.docs.length; i++) {
+         var r_id = "#result_" + i;
+         var doc = result.docs[i];
+         var sr = result.docs[i].sourceResource;
+         var im = doc.object;
+
+                    $("#results" ).append("<div id='result_" + i + "' class='row itembox'><h3><a target='blank' href='"+ doc.isShownAt +"'>" + sr.title + "</a></h3><div class='col-lg-3'><div class='imgcontainer'><a target='blank' href='"+ doc.isShownAt +"'><img src=" + im + " /></a></div></div><div class='col-lg-9'><p class='dataprovider'>from the collection of " + doc.dataProvider +"</p><p class='description'>" + sr.description +"</p><p class='format'>" + sr.format +"</p></div></div><hr>");
+                    }
+     $( "#facets" ).append("<div id='subject'><h2>Subjects</h2></div>");
+     for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
+       $( "#subject" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
+     }
+         } else {
+     $( "#results" ).append("<div>No results for the search '" + q + ".'</div>");
+         }
+       }
+     });
+   });
+// ]]></script>
+
+</container>
+<div id="searchresults" class="container">
+  <div class="row">
+      <div class="col-lg-3 facets" >
+        <container id="facets"></container>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-8 results">
+        <container id="results"></container>
+      </div>
+  </div>
+</div>
+
+
+</div>  
+                
+        <section id="about" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-heading">About</h2>
+                    
+                    <h4 style="text-transform:none;">The Empire State Library Network partners with New York's libraries, archives, and museums to share our history and treasures with a global audience.</h4>
+
+<p class="large">Libraries have spent years making the historical treasures of New York -- its papers, photos and public records -- easier to find by scanning and putting digital copies online. But with so many different websites and databases to turn to, it can be difficult for residents, students, and researchers to uncover the rich history of our state. In 2013, the Empire State Digital Network (ESDN) was launched at the Metropolitan New York Library Council (METRO) to help the Empire State Library Network (ESLN) collect New York State’s digital library materials and bring them all together in one place.</p>
+
+<p class="large">Before libraries were digital, we used card catalogs and the Dewey decimal system to organize and describe books and other documents. Unfortunately, digital libraries don’t use one simple system to organize and describe information so that we can find it easily on the internet. ESDN acts as a translator that helps all of the different systems used by libraries, archives and museums work together. ESDN builds a catalog of historically significant papers, photos, and public records from New York State, and then makes them available on a national platform called the <a class="dark" href="http://dp.la/">Digital Public Library of America.</a></p>
+</p>
+                </div>
+            </div>
+            </div>
+        </div>
+
+<section>
+<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-heading">How it works</h2>
+                    <h4 class="section-subheading" style="text-transform:none;">Everyone who puts digital collections on the web describes them a little differently, which makes them very hard to find. Here's how we fix that problem.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span>
+                        <img class="story-icon" src="img/collect.png" />
+                    </span>
+                    <h4 class="service-heading">Collect</h4>
+                    <p class="text-muted">ESDN works with libraries, archives, historical societies, and museums that have digitized their content to make it accessible as widely as possible. First we do that by helping you configure a data feed that contains all of the information describing your digital collections. It's easy.</p>
+                </div>
+                <div class="col-md-4">
+                     <span>
+                        <img class="story-icon" src="img/compile.png" />
+                    </span>
+                    <h4 class="service-heading">Compile</h4>
+                    <p class="text-muted">Then, ESDN works with you to refine your metadata. Metadata is the digital equivalent of cards in the classic library card catalog. Imagine how hard it would have been to find the book you want if every library had organized their card catalog differently? In this phase of our process, we resolve all of these differences in description.
+</p>
+                </div>
+                <div class="col-md-4">
+                     <span>
+                        <img class="story-icon" src="img/share.png" />
+                    </span>
+                    <h4 class="service-heading">Share</h4>
+                    <p class="text-muted">Finally, ESDN sends a single data stream describing participants collections in New York State to the Digital Public Library of America. The result: trusted, high quality, primary source historical content is discoverable and available to many more people than ever before.
+</p>
+                </div>
+            </div>
+        </div>
+   </section>
+    </section>
+
+    <section id="map">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-heading">Maximizing Access to New York State's Cultural History</h2>
+                    <h3 class="section-subheading text-muted">The Empire State Digital Network is a project adminsistered by the <a class="dark" href="http://metro.org">Metropolitan New York Library Council</a>. Through a unique collaboration with <a class="dark" href="https://www.esln.org/">all eight other library councils</a> in New York state, we have reached 181 organizations statewide, with more getting involved every day.</h3>
+                    <iframe width="100%" height="520" frameborder="0" src="https://chrisstanton.cartodb.com/viz/cc829c54-b983-11e5-925a-0ecfd53eb7d3/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="involved">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-heading">Contact Your Regional Liaison</h2>
+                    <h4>
+If your organization is interested in contributing to DPLA through ESDN, please contact the Empire State Library Network liaison in your region for more information:</h4>
+<ul>
+<li>
+    <a title="Central District Library Council" href="http://cdlc.org/" target="_blank">CDLC</a> : Susan D&#8217;Entremont <a title="Email Susan" href="mailto:susan@cdlc.org">susan@cdlc.org</a>
+</li>
+<li>
+    <a title="Central NY Library Resources Council" href="http://clrc.org/" target="_blank">CLRC</a> : Déirdre Joyce<a title="Email Deirdre" href="mailto:djoyce@clrc.org">djoyce@clrc.org</a>
+</li>
+<li>
+    <a title="Long Island Library Resources Council" href="http://www.lilrc.org/" target="_blank">LILRC</a> : Virginia Antonucci-Gibbons<a title="Email Virginia" href="mailto:vantonuc@lilrc.org">vantonuc@lilrc.org</a>
+</li>
+<li>
+    <a title="Metropolitan NY Library Council" href="http://metro.org/" target="_blank">METRO</a> : Anne Karle-Zenith<a title="Email Anne" href="mailto:annekz@metro.org">annekz@metro.org</a>
+</li>
+<li>
+    <a title="Northern NY Library Network" href="http://nnyln.org/" target="_blank">NNYLN</a> : Eric Alan<a title="Email Eric" href="mailto:eric@nnyln.org">eric@nnyln.org</a>
+</li>
+<li>
+    <a title="Rochester Regional Library Council" href="http://rrlc.org/" target="_blank">RRLC</a> : Laura Osterhout<a title="Email Laura" href="mailto:losterhout@rrlc.org">losterhout@rrlc.org</a>
+</li>
+<li>
+    <a title="South Central Regional Library Council" href="https://scrlc.org/" target="_blank">SCRLC</a> : Julia Corrice<a title="Email Julia" href="mailto:jcorrice@scrlc.org">jcorrice@scrlc.org</a>
+</li>
+<li>
+    <a title="Southeastern NY Library Resources Council" href="http://www.senylrc.org/" target="_blank">SENYLRC</a> : Jennifer Palmentiero<a title="Email Jen" href="mailto:jennifer@senylrc.org">jennifer@senylrc.org</a>
+</li>
+<li>
+    <a title="Western NY Library Resources Council" href="http://www.wnylrc.org/" target="_blank">WNYLRC</a> :  Jaclyn McKewan<a href="mailto:jmckewan@wnylrc.org">jmckewan@wnylrc.org</a>
+</li>
+</ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+      <footer>
+        <div class="footer">
+            <div class="row">
+                <div class="col-md-4">
+                    <!--<span class="copyright">Copyright &copy; Search the Empire State Digital Network 2014</span>-->
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        
+                        <li><a href="http://twitter.com/"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        
+                        <li><a href=""><i class="fa fa-facebook"></i></a>
+                        </li>
+                        
+                        <li><a href="http://github.com/ESDNhub"><i class="fa fa-github"></i></a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#"></a>
+                        </li>
+                        <li><a href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+     <!-- Portfolio Modals -->
+ 
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Dreams</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/dreams.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Escape</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/escape.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Golden</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/golden.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Round Icons</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/roundicons.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Treehouse</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/treehouse.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Startup Framework</h2>
+                            <hr class="star-primary">
+                            <img src="img/portfolio/startup-framework.png" class="img-responsive img-centered" alt="image-alt">
+                            <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret. Tantas apeirian vix et, usu sanctus postulant inciderint ut, populo diceret necessitatibus in vim. Cu eum dicam feugiat noluisse.</p>
+                            <ul class="list-inline item-details">
+                                <li>Client:
+                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                    </strong>
+                                </li>
+                                <li>Date:
+                                    <strong><a href="http://startbootstrap.com">April 2014</a>
+                                    </strong>
+                                </li>
+                                <li>Service:
+                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                    </strong>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- jQuery Version 1.11.0 -->
+    <script src="/portal//js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/portal//js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/portal//js/jquery.easing.min.js"></script>
+    <script src="/portal//js/classie.js"></script>
+    <script src="/portal//js/cbpAnimatedHeader.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/portal//js/jqBootstrapValidation.js"></script>
+    <script src="/portal//js/contact_me.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/portal//js/agency.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,127 @@
+h2{
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+
+h3{
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+
+p{
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color:#006600;
+}
+.front{
+  margin-top: 100px;
+}
+.sitetitle{
+  text-align: center;
+  margin-bottom:30px;
+}
+.dataprovider{
+  font-size: 20px;
+  font-weight: 400;
+  margin-top:6px;
+}
+#searchform{
+	display:block;
+	height:30px;
+}
+
+.imgcontainer {
+    width: 180px;
+    height: 180px;
+    float:left;
+    background-color: #000;
+    margin:10px 10px 18px 0px;
+    overflow:hidden;
+    position: relative;
+   -webkit-box-shadow: 0 8px 6px -6px black;
+     -moz-box-shadow: 0 8px 6px -6px black;
+          box-shadow: 0 8px 6px -6px black;
+      }
+
+.imgcontainer img {
+	z-index: 1;
+    margin: 0;
+    background: yellow;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.titlebox {
+	width: 100%;
+	height:50px;
+	background-color: #efefef;
+	overflow:hidden;
+  border-top: 1px solid #E0E0E0;
+  border-bottom: 2px solid #D8D8D8;
+}
+
+.itembox {
+  margin-bottom: 20px;
+  margin-top: 10px;
+      border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.footer {
+  background-color: #000;
+  padding-top: 40px;
+  height: 250px;
+  margin-top:60px;
+}
+
+.branding {
+  border-bottom:2px solid #efefef;
+  padding:20px;
+}
+
+input#searchterm{
+  width:600px;
+  height:60px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+#searchform,
+button#search{
+  display: table;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+#searchform{
+  margin-bottom:600px;
+}
+
+.facets, .results{
+  margin-top:120px;
+}
+
+.facets{float:right;}
+
+.navbar-brand{
+  padding: 0px;
+}
+
+.col-lg-3{
+  padding-left:0px;
+}
+
+.row{margin-left:0px;}

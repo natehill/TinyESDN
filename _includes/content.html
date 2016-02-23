@@ -1,0 +1,58 @@
+
+
+    <script type="text/javascript">// <![CDATA[
+
+      $("#search").click(function(e){
+        var q = $("#searchterm").val();
+        $( "#results, #facets").empty();
+        $( "#results" ).prepend("<h2>Results</h2>");
+        $.ajax({
+       dataType: "jsonp",
+       url: "http://api.dp.la/v2/items",
+       data: {
+         q: q,
+         provider: "Empire+State+Digital+Network",
+         api_key: mykey,
+         page_size: 100,
+         facets: "sourceResource.subject.name,sourceResource.date.begin,sourceResource.spatial.county,sourceResource.spatial.city,admin.contributingInstitution",
+       },
+      success: function( result ) {
+        if(result.docs.length > 0) {
+      for (var i= 0; i < result.docs.length; i++) {
+         var r_id = "#result_" + i;
+         var doc = result.docs[i];
+         var sr = result.docs[i].sourceResource;
+         var im = doc.object;
+
+                    $("#results" ).append("<div id='result_" + i + "' class='row itembox'><h3><a target='blank' href='"+ doc.isShownAt +"'>" + sr.title + "</a></h3><div class='col-lg-3'><div class='imgcontainer'><a target='blank' href='"+ doc.isShownAt +"'><img src=" + im + " /></a></div></div><div class='col-lg-9'><p class='dataprovider'>from the collection of " + doc.dataProvider +"</p><p class='description'>" + sr.description +"</p><p class='format'>" + sr.format +"</p></div></div><hr>");
+                    }
+     $( "#facets" ).append("<div id='subject'><h2>Subjects</h2></div>");
+     for(var i = 0; i < result.facets['sourceResource.subject.name'].terms.length; i++) {
+       $( "#subject" ).append("<div>" + result.facets['sourceResource.subject.name'].terms[i].term + "</div>");
+     }
+         } else {
+     $( "#results" ).append("<div>No results for the search '" + q + ".'</div>");
+         }
+       }
+     });
+   });
+// ]]></script>
+
+</container>
+<div id="searchresults" class="container">
+  <div class="row">
+      <div class="col-lg-3 facets" >
+        <container id="facets"></container>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-8 results">
+        <container id="results"></container>
+      </div>
+  </div>
+</div>
+
+
+</div>  
+                
